@@ -5,10 +5,10 @@ class AuditLog(db.Model):
     __tablename__ = "audit_logs"
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.String(), db.ForeignKey("users.id"))
     action = db.Column(db.String(50), nullable=False)
     target_table = db.Column(db.String(50), nullable=False)
-    target_id = db.Column(db.Integer, nullable=False)
+    target_id = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 

@@ -1,4 +1,4 @@
-from extension import db
+from extensions import db
 from uuid import uuid4
 from datetime import datetime, timezone
 from enum import Enum

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from models import Event, EventStatus
+from models.event import Event, EventStatus
 
 debug_bp = Blueprint('debug', __name__)
 

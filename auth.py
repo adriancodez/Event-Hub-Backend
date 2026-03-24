@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, make_response
-from models import User, UserRole, Club
+from models.user import User, UserRole
 from flask_jwt_extended import (
     create_access_token, create_refresh_token, jwt_required, 
     get_jwt_identity, get_jwt, set_access_cookies, set_refresh_cookies,

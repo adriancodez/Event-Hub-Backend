@@ -148,7 +148,7 @@ def send_subscription_email(user_email, club_name, expires_at):
     Returns:
         bool: True if email sent successfully, False otherwise
     """
-    from app import mail  # Import here to avoid circular import
+    from extensions import mail  # Import here to avoid circular import
 
     try:
         subject = f"Subscription Activated - {club_name}"

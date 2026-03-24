@@ -4,10 +4,13 @@ from flask_mail import Mail
 from dotenv import load_dotenv
 import os
 from datetime import datetime, timedelta, timezone
-from extension import db, jwt, migrate
+from extensions import db, jwt, migrate, mail, cors
 from auth import auth_bp
 from events import events_bp
-
+from payments import payments_bp
+from club_payments import club_bp
+from debug_events import debug_bp
+from models.user import User, UserRole
 
 load_dotenv()
 
@@ -45,7 +48,7 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
     migrate.init_app(app, db)
-    mail = Mail(app)
+    mail.init_app(app)
 
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(events_bp, url_prefix='/api/events')
@@ -53,7 +56,7 @@ def create_app():
     app.register_blueprint(club_bp, url_prefix='/api')
     app.register_blueprint(debug_bp, url_prefix='/api/debug')
     
-    CORS(app, origins=[
+    cors.init_app(app, origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173"
     ], supports_credentials=True, allow_headers=["Content-Type", "Authorization", "ngrok-skip-browser-warning"])
@@ -126,36 +129,3 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Error creating admin user: {e}")
     app.run(debug=True, port=5000,host="0.0.0.0")
-from flask import Flask
-from extensions import db, migrate, jwt, cors
-from API.admin import admin_bp
-import models  # ensures models are registered with SQLAlchemy
-
-def create_app():
-    app = Flask(__name__)
-
-    # Basic configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///eventhub.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['JWT_SECRET_KEY'] = 'super-secret-key'  # change this later
-
-    # Initialize extensions
-    db.init_app(app)
-    migrate.init_app(app, db)
-    jwt.init_app(app)
-    cors.init_app(app)
-
-    # Register blueprints
-    app.register_blueprint(admin_bp, url_prefix='/admin')
-
-    @app.route('/')
-    def home():
-        return {"message": "Welcome to Event Hub API 🎉"}
-
-    return app
-
-
-# Entry point
-if __name__ == "__main__":
-    app = create_app()
-    app.run(debug=True)

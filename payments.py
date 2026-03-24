@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
-from models import Ticket, Event, PaymentStatus, User
+from models.ticket import Ticket, PaymentStatus
+from models.event import Event
+from models.user import User
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from auth import role_required
 from extension import db

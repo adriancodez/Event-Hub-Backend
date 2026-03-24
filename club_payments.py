@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify
-from models import User, Event
+from models.user import User
+from models.event import Event
 from club_models import ClubSubscription, LuckyWinner
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from extension import db
+from extensions import db
 import random
 
 club_bp = Blueprint('club', __name__)
