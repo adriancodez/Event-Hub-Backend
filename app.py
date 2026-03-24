@@ -45,9 +45,6 @@ def create_app():
     with app.app_context():
         upgrade()
     
-    
-
-
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(events_bp, url_prefix='/api/events')
     app.register_blueprint(payments_bp, url_prefix='/api/payments')
@@ -119,7 +116,6 @@ def create_app():
 if __name__ == "__main__":
     app = create_app()
     with app.app_context():
-        db.create_all()
         
         try:
             admin = User.get_user_by_username('admin')
